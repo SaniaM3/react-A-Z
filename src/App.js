@@ -1,8 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
 import Counter from './components/Counter/Counter';
+import PostForm from './components/PostForm/PostForm';
 import PostList from './components/Postlist/PostList';
-import MyButton from './components/UI/button/MyButton';
 import './styles/App.css';
 
 function App() {
@@ -13,17 +13,19 @@ function App() {
         {id : 3, title: 'JavaScript', body: 'post js'},
         {id : 4, title: 'JavaScript', body: 'post js'},
       ])  
+    const createPost = (newPost) => {
+        setPosts([...posts, newPost])
+    }
+
+    const removePost = (post) => {
+      setPosts(posts.filter(p => p.id !== post.id))
+    }
 
   return (
     <div className="App">
     <Counter />
-
-    <form>
-        <input type='text' placeholder='post name'/>
-        <input type='text' placeholder='post description'/>
-        <MyButton disabled>Create post</MyButton>
-    </form>
-    <PostList posts={posts} title = 'List 1'/>
+    <PostForm create={createPost}/>
+    <PostList remove = {removePost} posts={posts} title = 'List 1'/>
 
     </div>
   );

@@ -13,10 +13,10 @@ function App() {
 
 
   const [posts, setPosts] = useState ([
-        {id : 1, title: 'as', body: 'post js'},
-        {id : 2, title: 'cffss', body: 'post js'},
-        {id : 3, title: 'ddsd', body: 'post js'},
-        {id : 4, title: 'JavaScript9', body: 'post js'},
+        {id : 1, title: 'Subaru', body: 'Gas'},
+        {id : 2, title: 'Audi', body: 'Diesel'},
+        {id : 3, title: 'Dodge', body: 'Gas'},
+        {id : 4, title: 'Ferrari', body: 'Gas'},
       ])  
 
     const [filter, setFilter] = useState({sort: '', query:''})

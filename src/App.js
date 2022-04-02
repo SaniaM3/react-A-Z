@@ -1,13 +1,15 @@
 import React from 'react';
 import { useState } from 'react';
-import { useMemo } from 'react';
 import Counter from './components/Counter/Counter';
 import PostFilter from './components/PostFilter/PostFilter';
 import PostForm from './components/PostForm/PostForm';
 import PostList from './components/Postlist/PostList';
 import MyButton from './components/UI/button/MyButton';
 import MyModal from './components/UI/modal/MyModal';
+import { usePosts } from './hooks/usePosts';
 import './styles/App.css';
+import { useEffect } from 'react';
+import PostService from './API/PostService';
 
 function App() {
 
@@ -23,30 +25,30 @@ function App() {
 
     const [modal, setModal] = useState(false)
 
-    const sortedPosts = useMemo(() => {
-      if (filter.sort) {
-        return [...posts].sort((a, b) => (a[filter.sort] > b[filter.sort] ? 1 : -1))
-      }
-      return posts;
-    },[filter.sort, posts])
+    const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
 
-    const sortedAndSearchedPosts = useMemo(() => {
-      return sortedPosts.filter(post => post.title.toLowerCase().includes(filter.query))
-    },[filter.query, sortedPosts])
+    useEffect(()=> {
+        fetchPosts()
+    },[])
 
     const createPost = (newPost) => {    //add post
         setPosts([...posts, newPost])
         setModal(false)
     }
 
+
+    async function fetchPosts(){
+      const posts = await PostService.getAll();
+      setPosts(posts)
+    }
+
     const removePost = (post) => {
       setPosts(posts.filter(p => p.id !== post.id)) //remove post
     }
 
-    
-
   return (
     <div className="App">
+    <MyButton onClick={fetchPosts}>Get Posts</MyButton>
     <MyButton style={{marginTop:'20px'}} onClick={()=> setModal(true)}>Add Post</MyButton>
     <MyModal visible={modal} setVisible={setModal}>
     <PostForm create={createPost}/>

@@ -10,6 +10,8 @@ import { usePosts } from './hooks/usePosts';
 import './styles/App.css';
 import { useEffect } from 'react';
 import PostService from './API/PostService';
+import Loader from './components/UI/Loader/Loader';
+import { useFetching } from './hooks/useFetching';
 
 function App() {
 
@@ -27,6 +29,11 @@ function App() {
 
     const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
 
+    const [fetchPosts, isPostsLoading, postError] = useFetching(async()=> {
+      const posts = await PostService.getAll();
+      setPosts(posts)
+    })
+
     useEffect(()=> {
         fetchPosts()
     },[])
@@ -36,11 +43,6 @@ function App() {
         setModal(false)
     }
 
-
-    async function fetchPosts(){
-      const posts = await PostService.getAll();
-      setPosts(posts)
-    }
 
     const removePost = (post) => {
       setPosts(posts.filter(p => p.id !== post.id)) //remove post
@@ -54,7 +56,14 @@ function App() {
     <PostForm create={createPost}/>
     </MyModal>
     <PostFilter filter={filter} setFilter={setFilter}/>
-    <PostList remove = {removePost} posts={sortedAndSearchedPosts} title = 'List 1'/>
+    {postError &&
+      <h1>Error ${postError}</h1>
+    }
+    {isPostsLoading
+      ? <div style={{display:'flex', justifyContent:'center', marginTop: 50}}><Loader /></div>
+      : <PostList remove = {removePost} posts={sortedAndSearchedPosts} title = 'List 1'/>
+    }
+    
     <hr style={{margin:'15px 0'}}></hr>
     <Counter />    
 

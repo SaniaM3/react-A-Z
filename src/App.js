@@ -30,8 +30,8 @@ function App() {
     const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);
 
     const [fetchPosts, isPostsLoading, postError] = useFetching(async()=> {
-      const posts = await PostService.getAll();
-      setPosts(posts)
+      const response = await PostService.getAll();
+      setPosts(response.data)
     })
 
     useEffect(()=> {

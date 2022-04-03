@@ -25,6 +25,8 @@ function App() {
 
     const [filter, setFilter] = useState({sort: '', query:''})
 
+    const [totalCount, setTotalCount] = useState(0)
+
     const [modal, setModal] = useState(false)
 
     const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query);

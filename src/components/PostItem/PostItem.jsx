@@ -1,9 +1,8 @@
 import MyButton from "../UI/button/MyButton";
 
-
-
-
 const PostItem = (props) => {
+
+
     return (
         <div className='post'>
                 <div className='post__content'>

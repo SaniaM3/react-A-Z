@@ -1,17 +1,13 @@
-import { Route } from 'react-router-dom';
-import { Routes } from 'react-router-dom';
-import About from './pages/About';
-import Posts from './pages/Posts';
+import Navbar from './components/UI/navbar/Navbar';
 import './styles/App.css';
+import AppRouter from './components/UI/appRouter/AppRouter';
 
 
 function App() {
     return (
       <div>
-        <Routes>
-          <Route path='/*' element={<Posts />}/>
-          <Route path='/about' element={<About />}/>
-        </Routes>
+        <Navbar />
+        <AppRouter />
       </div>
     )
 
